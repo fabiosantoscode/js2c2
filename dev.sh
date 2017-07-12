@@ -16,7 +16,7 @@ if [[ "$COMPILE" = 1 ]]; then
     gcc -O0 \
         -o js2cpp \
         -DV7_ENABLE_STACK_TRACKING \
-        -DV7_ENABLE_FILE v7/v7.c src/main.c -lm
+        -DV7_ENABLE_FILE v7/v7.c src/*.c -lm
     set +x
 fi
 

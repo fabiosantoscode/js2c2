@@ -1,17 +1,19 @@
 #pragma once
-#include "../v7/v7.h"
-#include "string.h"
 
-int TRUE = 1;
-int FALSE = 0;
+#include <unistd.h>
+#include <string.h>
+#include <stdbool.h>
+#include <stdlib.h>
+#include <assert.h>
+
+#include "../v7/v7.h"
+
 struct v7* v7;
 
-void handle_error(enum v7_err rcode, v7_val_t * res) {
-    if (rcode != V7_OK) {
-        printf("ERR %d", (int) rcode);
-        if (res != NULL) v7_println(v7, *res);
-    }
-}
-
+#define GLOBAL v7_get_global(v7)
+#define GET(obj, name) v7_get(v7, obj, name, strlen(name))
 #define SET(obj, name, val) v7_set(v7, obj, name, strlen(name), val)
-#define STRING(s) v7_mk_string(v7, s, strlen(s), TRUE)
+#define SET_METHOD(obj, name, meth) v7_set_method(v7, obj, name, meth)
+#define STRING(s) v7_mk_string(v7, s, strlen(s), true)
+#define JS_FUNCTION(name) enum v7_err name(struct v7 *v7, v7_val_t *res)
+
