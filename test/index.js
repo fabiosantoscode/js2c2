@@ -24,3 +24,6 @@ assert.throws(function () {
 })
 assert.deepEqual(require('./required-file'), { required: 'thing' })
 
+var date = new Date
+assert.equal(+date, Math.floor(+date))
+
