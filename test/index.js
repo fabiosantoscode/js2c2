@@ -19,11 +19,10 @@ ee.on('event', function(a, b) {
 
 ee.emit('event', { fake: 'a' }, { fake: 'b' })
 
-assert.throws(function () {
+assert.throws(function() {
   require('./non-existing-file')
 })
 assert.deepEqual(require('./required-file'), { required: 'thing' })
 
-var date = new Date
+var date = new Date()
 assert.equal(+date, Math.floor(+date))
-
