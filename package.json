@@ -7,8 +7,13 @@
     "test": "test"
   },
   "scripts": {
-    "test": "./dev.sh test/index.js"
+    "test": "./dev.sh test/index.js && ./dev.sh test/resolve.js && ./dev.sh test/hacks.js"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "buble": "^0.15.2",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1"
+  }
 }

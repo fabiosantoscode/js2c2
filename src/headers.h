@@ -10,6 +10,8 @@
 
 struct v7* v7;
 
+extern char** environ;
+
 #define GLOBAL v7_get_global(v7)
 #define GET(obj, name) v7_get(v7, obj, name, strlen(name))
 #define SET(obj, name, val) v7_set(v7, obj, name, strlen(name), val)
