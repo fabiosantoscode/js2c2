@@ -75,6 +75,39 @@ v7_val_t binding_buffer() {
     return exports;
 }
 
+JS_FUNCTION(js_eval_with_filename) {
+    enum v7_err rcode;
+    v7_val_t code_arg = v7_arg(v7, 0);
+    v7_val_t filename_arg = v7_arg(v7, 1);
+
+    v7_own(v7, &code_arg);
+    v7_own(v7, &filename_arg);
+
+    const char* code = v7_get_string(v7, &code_arg, NULL);
+    const char* filename = v7_get_string(v7, &filename_arg, NULL);
+
+    v7_set_gc_enabled(v7, 1);
+
+    struct v7_exec_opts opts = {
+        filename,
+        GLOBAL,
+        0
+    };
+
+    v7_val_t eval_result;
+    enum v7_err eval_err = v7_exec_opt(v7, code, &opts, &eval_result);
+
+    v7_disown(v7, &code_arg);
+    v7_disown(v7, &filename_arg);
+
+    if (eval_err != V7_OK) {
+        return v7_throw(v7, eval_result);
+    }
+
+    *res = eval_result;
+    return V7_OK;
+}
+
 JS_FUNCTION(js_process_binding) {
     v7_val_t binding_arg = v7_arg(v7, 0);
     const char* binding = v7_get_string(v7, &binding_arg, 0);
@@ -89,6 +122,8 @@ JS_FUNCTION(js_process_binding) {
         *res = v7_mk_cfunction(&js_process_env);
     } else if (strcmp(binding, "process_exit") == 0) {
         *res = v7_mk_cfunction(&js_process_exit);
+    } else if (strcmp(binding, "eval_with_filename") == 0) {
+        *res = v7_mk_cfunction(&js_eval_with_filename);
     } else {
         printf("could not find binding %s\n", binding);
         exit(1);
